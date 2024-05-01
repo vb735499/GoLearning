@@ -1,8 +1,20 @@
-import React from 'react';
+import { FC, useState, useEffect } from 'react';
 import logo from './img/logo.svg';
+import test from './api/test'
 import './css/App.css';
 
-function App() {
+const App:FC = () => {
+  const [helloMsg, setHelloMsg] = useState<string>('');
+
+  const handleGetHelleMsg = async () => {
+    const result = await test._get();
+    setHelloMsg(result);
+  }
+
+  useEffect(() => {
+    handleGetHelleMsg();
+  }, [helloMsg]);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -17,10 +29,12 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
+          {helloMsg}
         </a>
       </header>
     </div>
   );
 }
+
 
 export default App;
