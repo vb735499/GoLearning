@@ -1,20 +1,22 @@
 apiVersion: v1
- kind: Pod
- metadata:
-   name: kubernetes-first-try-pod
-   labels:
-     app: demoApp
- spec:
-   containers:
-     - name: kubernetes-demo-container-front
-       image: haha50198/golearning_front
-       ports:
-         - containerPort: 3000
-     - name: kubernetes-demo-container-api
-       image: haha50198/golearning_api
-       ports:
-         - containerPort: 8080
-     - name: kubernetes-demo-container-web
-       image: haha50198/golearning_web
-       ports:
-         - containerPort: 80
+kind: Pod
+metadata:
+  name: kubernetes-first-try-pod
+  labels:
+    app: demoApp
+spec:
+  containers:
+    # - name: kubernetes-demo-container-front
+    #   image: haha50198/golearning_front
+    #   ports:
+    #     - containerPort: 3000
+
+    # - name: kubernetes-demo-container-api
+    #   image: haha50198/golearning_api
+    #   ports:
+    #     - containerPort: 8080
+
+    - name: kubernetes-demo-container-web
+      image: haha50198/golearning_web
+      ports:
+        - containerPort: 80
