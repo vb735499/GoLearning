@@ -1,8 +1,9 @@
 const _get = async () =>{
-    return await fetch('/api')
-    .then((response) => response.clone().json())
+    return await fetch('/api/data')
+    .then((response) => response.clone())
     .then((data) => {
-        return data.message;
+        console.log(data)
+        return data;
     })
     .catch(console.error);
 }

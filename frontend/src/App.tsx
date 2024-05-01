@@ -8,7 +8,7 @@ const App:FC = () => {
 
   const handleGetHelleMsg = async () => {
     const result = await test._get();
-    setHelloMsg(result);
+    setHelloMsg(result + " hi");
   }
 
   useEffect(() => {
@@ -29,8 +29,9 @@ const App:FC = () => {
           rel="noopener noreferrer"
         >
           Learn React
-          {helloMsg}
         </a>
+
+        {helloMsg}
       </header>
     </div>
   );
