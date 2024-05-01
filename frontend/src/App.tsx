@@ -1,7 +1,8 @@
 import { FC, useState, useEffect } from 'react';
 import logo from './img/logo.svg';
-import test from './api/test'
 import './css/App.css';
+
+import test from './api/test'
 
 const App:FC = () => {
   const [helloMsg, setHelloMsg] = useState<string>('');
