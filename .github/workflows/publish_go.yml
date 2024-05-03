@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4.1.4
-      working-directory: ./API
     - name: Build Docker Image
       working-directory: ./API
       run: docker build . --tag go-docker-image:$(date +%s)
