@@ -1,40 +1,24 @@
-import { FC, useState, useEffect } from 'react';
-import logo from './img/logo.svg';
+import React, { FC } from 'react';
+import { RouterProvider } from "react-router-dom";
+import { red } from '@mui/material/colors';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+import BrowserRouter from './router';
 import './css/App.css';
 
-import test from './api/test'
-
-const App:FC = () => {
-  const [helloMsg, setHelloMsg] = useState<string>('');
-
-  const handleGetHelleMsg = async () => {
-    const result = await test._get();
-    setHelloMsg(result + " hi");
-  }
-
-  useEffect(() => {
-    handleGetHelleMsg();
-  }, [helloMsg]);
+const App: FC = () => {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: red[500],
+      },
+    },
+  });
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-
-        {helloMsg}
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <RouterProvider  router={BrowserRouter}/>
+    </ThemeProvider>
   );
 }
 
