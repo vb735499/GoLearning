@@ -41,7 +41,22 @@ func (basics BucketBasics) _UploadFile(bucketName string, objectKey string, file
 	return err
 }
 
-// Download(Read)
+// Read
+// ListObjects lists the objects in a bucket.
+func (basics BucketBasics) _ListObjects(bucketName string) ([]types.Object, error) {
+	result, err := basics.S3Client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
+		Bucket: aws.String(bucketName),
+	})
+	var contents []types.Object
+	if err != nil {
+		log.Printf("Couldn't list objects in bucket %v. Here's why: %v\n", bucketName, err)
+	} else {
+		contents = result.Contents
+	}
+	return contents, err
+}
+
+// Download(fetch)
 func (basics BucketBasics) _DownloadFile(bucketName string, objectKey string, filePath string) error {
 	result, err := basics.S3Client.GetObject(context.TODO(), &s3.GetObjectInput{
 		Bucket: aws.String(bucketName),
@@ -99,6 +114,32 @@ func (basics BucketBasics) UploadFile(bucketName string, memberId string, filePa
 	objectKey := "imgs/" + memberId + "/" + fileName
 	log.Println("FileName" + fileName)
 	basics._UploadFile(bucketName, objectKey, filePath)
+}
+
+/*
+Describe:
+  - Qeury All of files from AWS S3 bucket.
+
+parameters:
+@param bucketName: AWS S3 bucket name.
+
+return:
+@param _files: it's key-pair datatype. _files[username][0] = image
+*/
+func (basics BucketBasics) QueryAll(bucketName string) map[string][]string {
+	output, _ := basics._ListObjects(bucketName)
+	_files := make(map[string][]string)
+
+	log.Println("first page results:")
+	for _, object := range output {
+		slice_s := strings.Split(aws.ToString(object.Key), "/")
+		if slice_s[len(slice_s)-1] == "" {
+			continue
+		}
+		_files[slice_s[1]] = append(_files[slice_s[1]], slice_s[len(slice_s)-1])
+		log.Printf("key=%s size=%d", aws.ToString(object.Key), object.Size)
+	}
+	return _files
 }
 
 /*

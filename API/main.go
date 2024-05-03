@@ -3,7 +3,8 @@ package main
 func main() {
 	// bucketName := "pic-image"
 	// bucketClient := getClient()
-
+	// _files := bucketClient.QueryAll(bucketName)
+	// log.Println(json.Marshal(_files))
 	// current_path, _ := os.Getwd()
 	// prefix_path := "/imgs/"
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -22,9 +23,28 @@ func removeFile(filePath string) {
 	}
 }
 
+func toJson(_files map[string][]string) []byte {
+	out := []map[string]string{}
+
+	for key, files := range _files {
+		for _, filename := range files {
+			title := strings.Split(filename, ".")[0]
+			tmp := map[string]string{
+				"username": key,
+				"date":     "123",
+				"title":    title,
+				"image":    filename,
+			}
+			out = append(out, tmp)
+		}
+	}
+	out_b, _ := json.Marshal(out)
+	return out_b
+}
+
 func createUploadServer() UploadServer {
-	bucketClient := getClient()
 	bucketName := "pic-image"
+	bucketClient := getClient()
 
 	validation := []string{"jpg", "png", "jpeg", "gif"}
 
@@ -40,6 +60,11 @@ func createUploadServer() UploadServer {
 
 	router.SEngine.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "test.html", gin.H{})
+	})
+
+	router.SEngine.GET("/query", func(c *gin.Context) {
+		_files := bucketClient.QueryAll(bucketName)
+		c.JSON(200, toJson(_files))
 	})
 
 	router.SEngine.POST("/upload", func(c *gin.Context) {
