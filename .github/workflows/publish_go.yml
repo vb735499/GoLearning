@@ -1,0 +1,24 @@
+name: Build and Publish Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4.1.4
+      working-directory: ./API
+    - name: Build Docker Image
+      working-directory: ./API
+      run: docker build . --tag go-docker-image:$(date +%s)
+    
+    - name: Publish to Registry
+      working-directory: ./API
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        name: hsiaohsiangruan/Test-Git-Action
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}

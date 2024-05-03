@@ -1,25 +1,19 @@
-// main.go
 package main
 
-import (
-    "fmt"
-    "net/http"
-    "encoding/json"
-)
-
 func main() {
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintf(w, "Hello, World!")
-    })
-    http.HandleFunc("/api/data", dataHandler)
-    http.ListenAndServe(":8080", nil)
-}
+	// bucketName := "pic-image"
+	// bucketClient := getClient()
 
-type ApiResponse struct {
-    Message string `json:"message"`
-}
+	// current_path, _ := os.Getwd()
+	// prefix_path := "/imgs/"
 
-func dataHandler(w http.ResponseWriter, r *http.Request) {
-    response := ApiResponse{Message: "Hello from the Golang API!"}
-    json.NewEncoder(w).Encode(response)
+	// username := "user1"
+	// filename := "lena.png"
+	// filepath := current_path + prefix_path + username + "/" + filename
+
+	// bucketClient.UploadFile(bucketName, username, filepath)
+	// bucketClient.DownloadFile(bucketName, username, filepath)
+	// bucketClient.DeleteObjects(bucketName, username, []string{filename})
+	router := createUploadServer()
+	router.SEngine.Run(":8080")
 }
