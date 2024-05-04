@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type UploadServer struct {
@@ -23,23 +23,26 @@ func removeFile(filePath string) {
 	}
 }
 
-func toJson(_files map[string][]string) []byte {
+func toJson(_files map[string][]string) []map[string]string {
 	out := []map[string]string{}
 
-	for key, files := range _files {
+	for user, files := range _files {
 		for _, filename := range files {
-			title := strings.Split(filename, ".")[0]
+			title := strings.Split(filename, ".")
 			tmp := map[string]string{
-				"username": key,
+				"id":       uuid.New().String(),
+				"username": user,
 				"date":     "123",
-				"title":    title,
+				"title":    title[len(title)-2],
 				"image":    filename,
 			}
 			out = append(out, tmp)
 		}
 	}
-	out_b, _ := json.Marshal(out)
-	return out_b
+	log.Println(out)
+	// out_b, _ := json.Marshal(out)
+	// return out_b
+	return out
 }
 
 func createUploadServer() UploadServer {
@@ -58,16 +61,16 @@ func createUploadServer() UploadServer {
 	// Set a lower memory limit for multipart forms (default is 32 MiB)
 	router.SEngine.MaxMultipartMemory = 8 << 20 // 8 MiB
 
-	router.SEngine.GET("/", func(c *gin.Context) {
+	router.SEngine.GET("/api", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "test.html", gin.H{})
 	})
 
-	router.SEngine.GET("/query", func(c *gin.Context) {
+	router.SEngine.GET("/api/query", func(c *gin.Context) {
 		_files := bucketClient.QueryAll(bucketName)
 		c.JSON(200, toJson(_files))
 	})
 
-	router.SEngine.POST("/upload", func(c *gin.Context) {
+	router.SEngine.POST("/api/upload", func(c *gin.Context) {
 		form, _ := c.MultipartForm()
 		files := form.File["upload[]"]
 		memberId := form.Value["memberId"][0]
@@ -96,7 +99,8 @@ func createUploadServer() UploadServer {
 			removeFile(filePath)
 		}
 		uploadInfo += fmt.Sprintf("'%d' files uploaded!\n", uploadSucces)
-		c.String(http.StatusOK, uploadInfo)
+		// c.String(http.StatusOK, uploadInfo)
+		c.Redirect(http.StatusOK, "http://localhost/")
 	})
 	return router
 }

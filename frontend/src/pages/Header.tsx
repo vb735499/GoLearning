@@ -13,7 +13,7 @@ export default function Header(props: HeaderProps) {
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Button size="small">Subscribe</Button>
+        <Button size="small" href='/api'>UploadFile</Button>
         <Typography
           component="a"
           variant="h5"
@@ -25,13 +25,13 @@ export default function Header(props: HeaderProps) {
         >
           {title}
         </Typography>
-        <Button variant="contained" size="small">
+        {/* <Button variant="contained" size="small">
           Sign in
         </Button>
 
         <Button variant="outlined" size="small">
           Sign up
-        </Button>
+        </Button> */}
       </Toolbar>
     </React.Fragment>
   );

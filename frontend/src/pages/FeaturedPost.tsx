@@ -53,7 +53,7 @@ export default function FeaturedPost(props: FeaturedPostProps) {
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              {post.username}
+              {post.username[0]}
             </Avatar>
           }
           action={
@@ -76,7 +76,7 @@ export default function FeaturedPost(props: FeaturedPostProps) {
               </Menu>
             </div>
           }
-          title="Shrimp and Chorizo Paella"
+          title={post.title.split('/').pop()}
           subheader={post.date}
         />
         <CardMedia

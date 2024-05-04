@@ -136,7 +136,8 @@ func (basics BucketBasics) QueryAll(bucketName string) map[string][]string {
 		if slice_s[len(slice_s)-1] == "" {
 			continue
 		}
-		_files[slice_s[1]] = append(_files[slice_s[1]], slice_s[len(slice_s)-1])
+		prefix_uri := "https://s3-ap-southeast-2.amazonaws.com/" + bucketName + "/imgs/" + slice_s[1] + "/"
+		_files[slice_s[1]] = append(_files[slice_s[1]], prefix_uri+slice_s[len(slice_s)-1])
 		log.Printf("key=%s size=%d", aws.ToString(object.Key), object.Size)
 	}
 	return _files
