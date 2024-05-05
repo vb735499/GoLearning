@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
@@ -10,7 +11,7 @@ export default function UploadForm() {
     const [formData, setFormData] = React.useState({
         username: '',
         // password: '',
-        upload: FileList, // 用於文件上傳的字段
+        upload: null as FileList | null, // 用於文件上傳的字段
     });
     
     const VisuallyHiddenInput = styled('input')({
@@ -28,7 +29,7 @@ export default function UploadForm() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log('Form submitted:', formData);
-        // 在這裡發送表單數據到後端
+
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,39 +41,46 @@ export default function UploadForm() {
         if (event.target.files == null){
             return ;
         }
-        const file = event.target.files 
-        // setFormData({ ...formData, upload: file });
+        const file = event.target.files ;
+        setFormData({ ...formData, upload: file });
     };
     
 
 
   return (
-        <form 
-            action="/api/upload" 
-            method="POST" 
-            encType="multipart/form-data" 
-            onSubmit={handleSubmit}
-        >
-            <Button
-                component="label"
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
+        <Grid container spacing={1}>
+            <form 
+                action="/api/upload" 
+                method="POST" 
+                encType="multipart/form-data" 
+                onSubmit={handleSubmit}
             >
-                請選擇上傳的檔案(可拖拉檔案至此，支援jpg,jpeg,png,gif格式):
-                <VisuallyHiddenInput type="file" required multiple={true} name='upload[]' draggable={true} />
-            </Button>
-            <TextField
-                type="text"
-                name="username"
-                label="Username"
-                value={formData.username}
-                onChange={handleChange}
-                fullWidth
-            />
-            <Stack spacing={2} direction="row">
-                <Button type='submit' variant="text" endIcon={<SendIcon />}>送出</Button>
-            </Stack>
-        </form>
+                <Grid xs={12}> 
+                    <Button
+                        component="label"
+                        variant="contained"
+                        tabIndex={-1}
+                        startIcon={<CloudUploadIcon />}
+                    >
+                        請選擇上傳的檔案(可拖拉檔案至此，支援jpg,jpeg,png,gif格式):
+                        <VisuallyHiddenInput type="file" multiple={true} name='upload[]' draggable={true} onChange={handleFileChange}/>
+                    </Button>
+                </Grid>
+                <Grid spacing={12}>
+                    <TextField
+                        type="text"
+                        name="username"
+                        label="Username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        fullWidth
+                    />
+                </Grid>
+                <Stack spacing={2} direction="row">
+                    <Button type='submit' variant="text" endIcon={<SendIcon />}>送出</Button>
+                </Stack>
+            </form>
+        </Grid>
+        
   );
 }
