@@ -2,6 +2,7 @@ import { FC, lazy, LazyExoticComponent, Suspense } from 'react';
 import { createBrowserRouter } from "react-router-dom";
 
 import LoadingScreen from "./components/LoadingScreen";
+import UploadForm from './pages/UploadForm';
 
 const loadable = (Component: LazyExoticComponent<FC>) => (props: any) => (
     <Suspense fallback={<LoadingScreen />}>
@@ -19,6 +20,10 @@ const BrowserRouter = createBrowserRouter([
     },{
       path: "/upload",
       element: <UploadPage />,
+    },
+    {
+      path: "/test",
+      element: <UploadForm />,
     }
 ]);
 
