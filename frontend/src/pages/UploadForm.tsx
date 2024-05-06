@@ -10,8 +10,7 @@ import { styled } from '@mui/material/styles';
 export default function UploadForm() {
     const [formData, setFormData] = React.useState({
         username: '',
-        // password: '',
-        upload: null as FileList | null, // 用於文件上傳的字段
+        upload: null as FileList | null, 
     });
     
     const VisuallyHiddenInput = styled('input')({
@@ -45,17 +44,15 @@ export default function UploadForm() {
         setFormData({ ...formData, upload: file });
     };
     
-
-
   return (
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
             <form 
                 action="/api/upload" 
                 method="POST" 
                 encType="multipart/form-data" 
                 onSubmit={handleSubmit}
             >
-                <Grid xs={12}> 
+                <Grid xs={8}> 
                     <Button
                         component="label"
                         variant="contained"
@@ -66,7 +63,7 @@ export default function UploadForm() {
                         <VisuallyHiddenInput type="file" multiple={true} name='upload[]' draggable={true} onChange={handleFileChange}/>
                     </Button>
                 </Grid>
-                <Grid spacing={12}>
+                <Grid spacing={4}>
                     <TextField
                         type="text"
                         name="username"
@@ -81,6 +78,5 @@ export default function UploadForm() {
                 </Stack>
             </form>
         </Grid>
-        
   );
 }

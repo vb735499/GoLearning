@@ -4,7 +4,7 @@ import UploadCard from './UploadCard'
 
 export default function UploadPage() {
   return (
-    <Container maxWidth="sm" >
+    <Container maxWidth="xs" >
         <UploadCard />
     </Container>
   );

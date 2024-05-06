@@ -9,7 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
-
+import UploadForm from './UploadForm';
 import Typography from '@mui/material/Typography';
 
 export default function UploadCard() {
@@ -27,24 +27,15 @@ export default function UploadCard() {
   });
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-        <CardMedia
-            component="img"
-            alt="green iguana"
-            height="140"
-            image=""
-        />
+    <Card sx={{ maxWidth: 600 }}>
         <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-            Test
+            UploadForm
             </Typography>
             <Typography variant="body2" color="text.secondary">
+              <UploadForm></UploadForm>
             </Typography>
         </CardContent>
-        <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
-        </CardActions>
     </Card>
   );
 }

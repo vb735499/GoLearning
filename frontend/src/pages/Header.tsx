@@ -13,7 +13,7 @@ export default function Header(props: HeaderProps) {
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Button size="small" href='/api'>UploadFile</Button>
+        <Button size="small" href='/upload'>UploadFile</Button>
         <Typography
           component="a"
           variant="h5"
