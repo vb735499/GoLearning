@@ -26,7 +26,7 @@ export default function Blog() {
 
   const handleGetHelleMsg = async () => {
     const result = await APIService._get();
-    setImgsFile(imgsFile);
+    setImgsFile(result);
   }
   React.useEffect(() => {
     if (!isLoaded) {
